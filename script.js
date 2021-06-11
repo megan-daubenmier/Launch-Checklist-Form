@@ -11,3 +11,10 @@
 </ol>
 <img src="${}">
 */
+
+window.addEventListener("load", function() {
+   this.document.addEventListener("submit", function(event) {
+      event.preventDefault();
+      alert('lalala');
+   });
+});
