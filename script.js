@@ -35,8 +35,8 @@ window.addEventListener("load", function() {
          //       alert(visibilityIndex);
          //    }
          // }
-         document.getElementById("pilotStatus").innerHTML = `${name1} is ready for launch`;
-         document.getElementById("copilotStatus").innerHTML = `${name2} is ready for launch`;
+         document.getElementById("pilotStatus").innerHTML = `Pilot ${name1} is ready for launch`;
+         document.getElementById("copilotStatus").innerHTML = `Co-pilot ${name2} is ready for launch`;
          let status = document.getElementById("launchStatus");
          if(Number(level)<10000) {
             status.innerHTML = "Shuttle not ready for launch";
@@ -53,6 +53,22 @@ window.addEventListener("load", function() {
             status.style.color = "green";
             document.getElementById("fuelStatus").innerHTML = "Sufficient fuel for launch";
             document.getElementById("cargoStatus").innerHTML = "Cargo light enough for launch";
+            fetch("https://handlers.education.launchcode.org/static/planets.json").then(function(response) {
+               response.json().then(function(json) {
+                  let planet = Math.floor(Math.random())*json.length;
+                  document.getElementById("missionTarget").innerHTML += `
+                     <h2>Mission Destination</h2>
+                        <ol>
+                           <li>Name: ${json[planet].name}</li>
+                           <li>Diameter: ${json[planet].diameter}</li>
+                           <li>Star: ${json[planet].star}</li>
+                           <li>Distance from Earth: ${json[planet].distance}</li>
+                           <li>Number of Moons: ${json[planet].moons}</li>
+                        </ol>
+                     <img src="${json[planet].image}">
+                  `
+               });
+            });
          }
       }
    });
