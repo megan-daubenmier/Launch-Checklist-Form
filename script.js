@@ -1,4 +1,20 @@
 window.addEventListener("load", function() {
+   fetch("https://handlers.education.launchcode.org/static/planets.json").then(function(response) {
+               response.json().then(function(json) {
+                  let planet = Math.floor(Math.random()*json.length);
+                  document.getElementById("missionTarget").innerHTML = `
+                     <h2>Mission Destination</h2>
+                     <ol>
+                        <li>Name: ${json[planet].name}</li>
+                        <li>Diameter: ${json[planet].diameter}</li>
+                        <li>Star: ${json[planet].star}</li>
+                        <li>Distance from Earth: ${json[planet].distance}</li>
+                        <li>Number of Moons: ${json[planet].moons}</li>
+                     </ol>
+                     <img src="${json[planet].image}">
+                  `
+               });
+            });
    this.document.addEventListener("submit", function(event) {
       event.preventDefault();
       let name1 = document.querySelector("input[name=pilotName]").value;
@@ -22,7 +38,6 @@ window.addEventListener("load", function() {
          if(Number(level)<10000) {
             status.innerHTML = "Shuttle not ready for launch";
             status.style.color = "red";
-            document.getElementById("missionTarget").style.visibility = "hidden";
             document.getElementById("faultyItems").style.visibility = "visible";
             let fuelStatus = document.getElementById("fuelStatus");
             fuelStatus.style.color = "red";
@@ -33,7 +48,6 @@ window.addEventListener("load", function() {
          if(Number(mass)>10000) {
             status.innerHTML = "Shuttle not ready for launch";
             status.style.color = "red";
-            document.getElementById("missionTarget").style.visibility = "hidden";
             document.getElementById("faultyItems").style.visibility = "visible";
             let cargoStatus = document.getElementById("cargoStatus");
             cargoStatus.style.color = "red";
@@ -44,24 +58,8 @@ window.addEventListener("load", function() {
          if(Number(level)>10000 && Number(mass)<10000) {
             status.innerHTML = "Shuttle is ready for launch";
             status.style.color = "green";
-            document.getElementById("missionTarget").style.visibility = "visible";
             document.getElementById("faultyItems").style.visibility = "hidden";
-            fetch("https://handlers.education.launchcode.org/static/planets.json").then(function(response) {
-               response.json().then(function(json) {
-                  let planet = Math.floor(Math.random()*json.length);
-                  document.getElementById("missionTarget").innerHTML = `
-                     <h2>Mission Destination</h2>
-                     <ol>
-                        <li>Name: ${json[planet].name}</li>
-                        <li>Diameter: ${json[planet].diameter}</li>
-                        <li>Star: ${json[planet].star}</li>
-                        <li>Distance from Earth: ${json[planet].distance}</li>
-                        <li>Number of Moons: ${json[planet].moons}</li>
-                     </ol>
-                     <img src="${json[planet].image}">
-                  `
-               });
-            });
+            
          }
       }
    });
